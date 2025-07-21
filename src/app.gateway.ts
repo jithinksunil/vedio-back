@@ -25,12 +25,12 @@ export class AppGateway implements OnGatewayConnection, OnGatewayDisconnect {
   // Listen for 'control' events from clients
   @SubscribeMessage('control')
   handleControl(
-    _client: Socket,
+    client: Socket,
     payload: { type: string; time?: number; seekSetter: number; url?: string }
   ) {
     console.log(`Received control command:`, payload);
 
     // Broadcast the control event to all connected clients
-    this.server.emit('control', payload);
+    client.broadcast.emit('control', payload);
   }
 }
